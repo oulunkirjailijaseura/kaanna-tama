@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import AutoResizingTextarea, {
   type AutoResizingTextareaRef,
 } from "@/components/AutoResizingTextarea";
+import CreditsMonitor from "@/components/CreditsMonitor";
 import LanguageSelect from "@/components/LanguageSelect";
 import useLLMTranslate from "@/hooks/useLLMTranslate";
 import styles from "./page.module.css";
@@ -29,6 +30,7 @@ export default function KaannaTama() {
 
   const [isCopied, setIsCopied] = useState(false);
   const [isMac, setIsMac] = useState<boolean | null>(null);
+  const [translationFetched, setTranslationFetched] = useState(false);
 
   const sourceTextareaRef = useRef<AutoResizingTextareaRef>(null);
   const styleExampleTextareaRef = useRef<AutoResizingTextareaRef>(null);
@@ -77,6 +79,7 @@ export default function KaannaTama() {
         event.preventDefault();
         if (!isLoading && textToTranslate.trim()) {
           handleTranslate();
+          setTranslationFetched(true);
         }
       }
 
@@ -279,6 +282,9 @@ export default function KaannaTama() {
             )}
         </section>
       </div>
+      <section className="flex justify-center">
+        <CreditsMonitor fetchTrigger={translationFetched} />
+      </section>
     </main>
   );
 }
