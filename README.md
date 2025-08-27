@@ -31,6 +31,8 @@ To run this project locally, follow these steps:
 
     ```
     OPENAI_API_KEY=your-openai-api-key
+    OPENAI_ADMIN_API_KEY=your-openai-admin-api-key
+    OPENAI_PROJECT_ID=your-openai-project-id
     APP_PASSWORD=MyAppPassword
     ```
 
