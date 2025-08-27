@@ -30,7 +30,8 @@ To run this project locally, follow these steps:
     Create a `.env.local` file in the root of the project and add your LLM API key:
 
     ```
-    NEXT_PUBLIC_LLM_API_KEY=YOUR_API_KEY
+    OPENAI_API_KEY=your-openai-api-key
+    APP_PASSWORD=MyAppPassword
     ```
 
 4.  Run the development server:
