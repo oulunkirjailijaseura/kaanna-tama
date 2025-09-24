@@ -8,6 +8,7 @@ import AutoResizingTextarea, {
 } from "@/components/AutoResizingTextarea";
 import CreditsMonitor from "@/components/CreditsMonitor";
 import LanguageSelect from "@/components/LanguageSelect";
+import ModelSelect from "@/components/ModelSelect";
 import useLLMTranslate from "@/hooks/useLLMTranslate";
 import styles from "./page.module.css";
 
@@ -26,6 +27,9 @@ export default function KaannaTama() {
     translation,
     setTranslation,
     isLoading,
+    models,
+    selectedModel,
+    setSelectedModel,
   } = useLLMTranslate();
 
   const [isCopied, setIsCopied] = useState(false);
@@ -35,6 +39,7 @@ export default function KaannaTama() {
   const sourceTextareaRef = useRef<AutoResizingTextareaRef>(null);
   const styleExampleTextareaRef = useRef<AutoResizingTextareaRef>(null);
   const translationTextareaRef = useRef<AutoResizingTextareaRef>(null);
+  const modelSelectRef = useRef<HTMLSelectElement>(null);
 
   const handleCopy = useCallback(async () => {
     if (translation.trim() === "") return;
@@ -72,6 +77,12 @@ export default function KaannaTama() {
       if (modifierKey && event.key === "3") {
         event.preventDefault();
         translationTextareaRef.current?.focus();
+      }
+
+      // Cmd/Ctrl+4: Focus model select
+      if (modifierKey && event.key === "4") {
+        event.preventDefault();
+        modelSelectRef.current?.focus();
       }
 
       // Cmd/Ctrl+Enter: Trigger translation (common pattern, unlikely to conflict)
@@ -145,7 +156,8 @@ export default function KaannaTama() {
             Pikanäppäimet: {modifierKeyText}+1 (teksti), {modifierKeyText}+2
             (esimerkki), {modifierKeyText}+3 (käännös),
             {` `}
-            {modifierKeyText}+Enter (käännä), {modifierKeyText}+Shift+C (kopioi)
+            {modifierKeyText}+4 (malli), {modifierKeyText}+Enter (käännä),{" "}
+            {modifierKeyText}+Shift+C (kopioi)
           </div>
         </header>
 
@@ -153,6 +165,21 @@ export default function KaannaTama() {
           className={`rounded-xl shadow-lg p-6 mb-6 ${styles["card-style"]}`}
         >
           <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
+              <ModelSelect
+                labelText="Malli"
+                id="model"
+                value={selectedModel?.name}
+                onChange={(e) =>
+                  setSelectedModel(
+                    models.find((model) => model.name === e.target.value)
+                  )
+                }
+                models={models}
+                styles={styles}
+                forwardedRef={modelSelectRef}
+              />
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <LanguageSelect
                 labelText="Lähdekieli"

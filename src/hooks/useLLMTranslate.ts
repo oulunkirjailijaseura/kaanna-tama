@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { LANGUAGES } from "@/consts";
+import useGetModelInfo from "./useGetModelInfo";
 
 export default function useLLMTranslate() {
   const languageKeys = Object.keys(LANGUAGES);
@@ -9,7 +10,7 @@ export default function useLLMTranslate() {
   const [textToTranslate, setTextToTranslate] = useState("");
   const [translation, setTranslation] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
+  const { models, selectedModel, setSelectedModel } = useGetModelInfo();
   const handleTranslate = useCallback(async () => {
     if (!textToTranslate.trim()) {
       alert("Täytä käännettävä teksti");
@@ -30,6 +31,7 @@ export default function useLLMTranslate() {
           targetLanguage,
           styleExample,
           textToTranslate,
+          model: selectedModel?.name,
         }),
       });
 
@@ -48,7 +50,13 @@ export default function useLLMTranslate() {
     } finally {
       setIsLoading(false);
     }
-  }, [sourceLanguage, targetLanguage, styleExample, textToTranslate]);
+  }, [
+    sourceLanguage,
+    targetLanguage,
+    styleExample,
+    textToTranslate,
+    selectedModel,
+  ]);
 
   return {
     handleTranslate,
@@ -64,5 +72,8 @@ export default function useLLMTranslate() {
     setTranslation,
     isLoading,
     LANGUAGES,
+    models,
+    selectedModel,
+    setSelectedModel,
   };
 }

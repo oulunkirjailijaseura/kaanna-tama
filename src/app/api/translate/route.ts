@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 import { LANGUAGES } from "@/consts";
 
@@ -12,8 +12,13 @@ const capitalize = (str: string) => {
 
 export async function POST(request: NextRequest) {
   try {
-    const { sourceLanguage, targetLanguage, styleExample, textToTranslate } =
-      await request.json();
+    const {
+      sourceLanguage,
+      targetLanguage,
+      styleExample,
+      textToTranslate,
+      model,
+    } = await request.json();
 
     const sourceLanguageValid =
       typeof sourceLanguage === "string" &&
