@@ -25,6 +25,9 @@ export const models: Model[] = [
     outputCost: 0.00015,
     contextCost: 0.00015,
   },
+  ...(process.env.DEEPL_API_KEY
+    ? [{ name: "deepl", inputCost: 2, outputCost: 2, contextCost: 2 }]
+    : []),
 ].map((model) => ({
   ...model,
   totalCost: calculateTotalCost(model),

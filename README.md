@@ -4,7 +4,7 @@
 
 ## About
 
-Käännä Tämä! (Translate This!) is a simple web application built with Next.js that allows users to translate text using a large language model (LLM). The application provides a user-friendly interface for inputting text, selecting target languages, and viewing the translated output.
+Käännä Tämä! (Translate This!) is a simple web application built with Next.js that allows users to translate text using a large language model API. The application provides a user-friendly interface for inputting text, selecting target languages, and viewing the translated output.
 
 ## Getting Started
 
@@ -33,6 +33,7 @@ To run this project locally, follow these steps:
     OPENAI_API_KEY=your-openai-api-key
     OPENAI_ADMIN_API_KEY=your-openai-admin-api-key
     OPENAI_PROJECT_ID=your-openai-project-id
+    DEEPL_API_KEY=your-deepl-api-key
     APP_PASSWORD=MyAppPassword
     ```
 
@@ -55,7 +56,7 @@ To run this project locally, follow these steps:
 *   Next.js
 *   React
 *   Tailwind CSS (for styling)
-*   LLM (for translation - e.g., OpenAI GPT, Gemini, etc.)
+*   OpenAI API and DeepL API
 
 ## Project Structure
 
