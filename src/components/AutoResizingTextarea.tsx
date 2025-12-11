@@ -44,7 +44,7 @@ const AutoResizingTextarea = forwardRef<
 
   useEffect(() => {
     autoResize();
-  }, [autoResize, value]);
+  }, [autoResize]);
 
   return (
     <textarea
