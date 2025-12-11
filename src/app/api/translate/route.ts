@@ -11,7 +11,9 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const deeplClient = new deepl.DeepLClient(process.env.DEEPL_API_KEY ?? "");
+const deeplClient = process.env.DEEPL_API_KEY
+  ? new deepl.DeepLClient(process.env.DEEPL_API_KEY)
+  : undefined;
 
 const capitalize = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -98,6 +100,10 @@ const deeplRequest = async ({
     throw new Error("Invalid source language");
   }
 
+  if (!deeplClient) {
+    throw new Error("DeepL API key not set");
+  }
+
   const result = await deeplClient.translateText(
     textToTranslate,
     sourceLanguageCode,
@@ -135,9 +141,7 @@ export async function POST(request: NextRequest) {
     }
 
     const translation =
-      model === "deepl" &&
-      process.env.DEEPL_API_KEY &&
-      process.env.DEEPL_API_KEY.length > 0
+      model === "deepl"
         ? await deeplRequest({
             sourceLanguage,
             targetLanguage,
